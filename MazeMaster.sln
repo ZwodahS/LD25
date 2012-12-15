@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C# Express 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeMaster", "MazeMaster\MazeMaster.csproj", "{70AE7868-6410-41E6-B3F0-940798CDE6B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeMasterContent", "MazeMasterContent\MazeMasterContent.contentproj", "{0AC5545A-516A-4F64-8F6D-B894F2BF83A2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{70AE7868-6410-41E6-B3F0-940798CDE6B6}.Debug|x86.ActiveCfg = Debug|x86
+		{70AE7868-6410-41E6-B3F0-940798CDE6B6}.Debug|x86.Build.0 = Debug|x86
+		{70AE7868-6410-41E6-B3F0-940798CDE6B6}.Release|x86.ActiveCfg = Release|x86
+		{70AE7868-6410-41E6-B3F0-940798CDE6B6}.Release|x86.Build.0 = Release|x86
+		{0AC5545A-516A-4F64-8F6D-B894F2BF83A2}.Debug|x86.ActiveCfg = Debug|x86
+		{0AC5545A-516A-4F64-8F6D-B894F2BF83A2}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
