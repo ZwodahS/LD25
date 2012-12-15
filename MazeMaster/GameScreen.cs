@@ -20,8 +20,16 @@ namespace MazeMaster
 
         public void RestartLevel()
         {
-            CurrentMaze = new Maze(MazeGenerator.GenerateMaze(25, 25, new Random().Next()));
-            CurrentMaze.AddUnit(UnitType.Basic, 12, 12);
+            Random rng = new Random();
+            CurrentMaze = new Maze(MazeGenerator.GenerateMaze(25, 25, rng.Next()));
+            CurrentMaze.AddUnit(UnitType.Basic, rng.Next(0,25),rng.Next(0,25));
+            CurrentMaze.AddUnit(UnitType.Basic, rng.Next(0, 25), rng.Next(0, 25));
+            CurrentMaze.AddUnit(UnitType.Basic, rng.Next(0, 25), rng.Next(0, 25));
+            CurrentMaze.AddUnit(UnitType.Basic, rng.Next(0, 25), rng.Next(0, 25));
+            CurrentMaze.AddUnit(UnitType.Basic, rng.Next(0, 25), rng.Next(0, 25));
+            CurrentMaze.AddUnit(UnitType.Basic, rng.Next(0, 25), rng.Next(0, 25));
+            CurrentMaze.AddUnit(UnitType.Basic, rng.Next(0, 25), rng.Next(0, 25));
+            CurrentMaze.AddUnit(UnitType.Basic, rng.Next(0, 25), rng.Next(0, 25));
         }
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)

@@ -107,7 +107,6 @@ namespace MazeMaster.Game.Humans
         {
             MovementVector = Vector2.Zero;
             CurrentGrid = TargetGrid;
-            Console.WriteLine("{0},{1}",CurrentGrid.Row,CurrentGrid.Col);
         }
 
         /// <summary>
