@@ -5,9 +5,10 @@ using System.Text;
 
 namespace MazeMaster.Game
 {
-    public enum WallType
+    public enum WallState
     {
         None,
+        Breaking,
         Broken,
         Sealed,
     }

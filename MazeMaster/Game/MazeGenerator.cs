@@ -28,13 +28,13 @@ namespace MazeMaster.Game
         {
             Tile t = new Tile(row, col);
             int rand = random.Next(0, 2);
-            t.LeftWall = rand == 0 ? WallType.Sealed : WallType.None;
+            t.LeftWall = rand == 0 ? WallState.Sealed : WallState.None;
             rand = random.Next(0, 2);
-            t.RightWall = rand == 0 ? WallType.Sealed : WallType.None;
+            t.RightWall = rand == 0 ? WallState.Sealed : WallState.None;
             rand = random.Next(0, 2);
-            t.UpWall = rand == 0 ? WallType.Sealed : WallType.None;
+            t.UpWall = rand == 0 ? WallState.Sealed : WallState.None;
             rand = random.Next(0, 2);
-            t.DownWall = rand == 0 ? WallType.Sealed : WallType.None;
+            t.DownWall = rand == 0 ? WallState.Sealed : WallState.None;
 
             return t;
         }
@@ -42,10 +42,10 @@ namespace MazeMaster.Game
         private static Tile fullTile(int row, int col)
         {
             Tile t = new Tile(row, col);
-            t.LeftWall = WallType.Sealed;
-            t.RightWall = WallType.Sealed;
-            t.UpWall = WallType.Sealed;
-            t.DownWall = WallType.Sealed;
+            t.LeftWall = WallState.Sealed;
+            t.RightWall = WallState.Sealed;
+            t.UpWall = WallState.Sealed;
+            t.DownWall = WallState.Sealed;
 
             return t;
         }

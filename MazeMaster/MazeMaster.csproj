@@ -117,6 +117,7 @@
     <Compile Include="Game\Helper.cs" />
     <Compile Include="Game\Humans\ActionType.cs" />
     <Compile Include="Game\Humans\BasicHuman.cs" />
+    <Compile Include="Game\Humans\Breaker.cs" />
     <Compile Include="Game\Humans\Unit.cs" />
     <Compile Include="Game\Humans\UnitAction.cs" />
     <Compile Include="Game\Humans\UnitType.cs" />

@@ -27,6 +27,10 @@ namespace MazeMaster.Game
             {
                 unit = new BasicHuman();
             }
+            else if (type == UnitType.Breaker)
+            {
+                unit = new Breaker();
+            }
             unit.SetGrid(grid);
             unit.TargetMaze = this;
             unit.CurrentFacingDirection = Helper.RandomDirection(false);
@@ -73,7 +77,7 @@ namespace MazeMaster.Game
         }
         public bool InRange(Grid grid)
         {
-            if (grid.Row < 0 || grid.Col < 0 || grid.Row >= Tiles.GetLength(0) || grid.Col > Tiles.GetLength(1))
+            if (grid.Row < 0 || grid.Col < 0 || grid.Row >= Tiles.GetLength(0) || grid.Col >= Tiles.GetLength(1))
             {
                 return false;
             }

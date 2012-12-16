@@ -12,10 +12,16 @@ namespace MazeMaster.Game
     {
         public Texture2D Texture;
 
-        public WallType LeftWall;
-        public WallType RightWall;
-        public WallType UpWall;
-        public WallType DownWall;
+        public WallState LeftWall;
+        public WallState RightWall;
+        public WallState UpWall;
+        public WallState DownWall;
+
+        public const int Up = 0;
+        public const int Down = 1;
+        public const int Left = 2;
+        public const int Right = 3;
+        public float[] WallAnimateTime; // for showing destruction animation , [up,down,left,right]
 
         public ObstacleType Obstacle;
 
@@ -32,50 +38,71 @@ namespace MazeMaster.Game
         {
             Row = r;
             Col = c;
+            WallAnimateTime = new float[] { 0 , 0 , 0 , 0 };
             UpdateBound();
             Texture = GraphicsAssets.Instance.MainSprite;
-            LeftWall = WallType.None;
-            RightWall = WallType.None;
-            UpWall = WallType.None;
-            DownWall = WallType.None;
+            LeftWall = WallState.None;
+            RightWall = WallState.None;
+            UpWall = WallState.None;
+            DownWall = WallState.None;
         }
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             spriteBatch.Draw(Texture, DrawBound, GraphicsAssets.Instance.GrassTile, Color.White);
-            if (UpWall == WallType.Sealed)
+            if (UpWall == WallState.Sealed)
             {
                 spriteBatch.Draw(Texture, UpBound, GraphicsAssets.Instance.Horizontal, Color.White);
             }
-            else if (UpWall == WallType.Broken)
+            else if (UpWall == WallState.Broken)
             {
                 spriteBatch.Draw(Texture, UpBound, GraphicsAssets.Instance.HorizontalBroken, Color.White);
             }
+            else if (UpWall == WallState.Breaking)
+            {
+                spriteBatch.Draw(Texture, UpBound, GraphicsAssets.Instance.Horizontal, Color.White);
+                spriteBatch.Draw(Texture, UpBound, GraphicsAssets.Instance.HorizontalDamaged, new Color(255, 0, 0, WallAnimateTime[0] * 0.5f));
+            }
 
-            if (DownWall == WallType.Sealed)
+            if (DownWall == WallState.Sealed)
             {
                 spriteBatch.Draw(Texture, DownBound, GraphicsAssets.Instance.Horizontal, Color.White);
             }
-            else if (DownWall == WallType.Broken)
+            else if (DownWall == WallState.Broken)
             {
                 spriteBatch.Draw(Texture, DownBound, GraphicsAssets.Instance.HorizontalBroken, Color.White);
             }
+            else if (DownWall == WallState.Breaking)
+            {
+                spriteBatch.Draw(Texture, DownBound, GraphicsAssets.Instance.Horizontal, Color.White);
+                spriteBatch.Draw(Texture, DownBound, GraphicsAssets.Instance.HorizontalDamaged, new Color(255, 0, 0, WallAnimateTime[1]*0.5f));
+            }
 
-            if (LeftWall == WallType.Sealed)
+            if (LeftWall == WallState.Sealed)
             {
                 spriteBatch.Draw(Texture, LeftBound, GraphicsAssets.Instance.Vertical, Color.White);
             }
-            else if (LeftWall == WallType.Broken)
+            else if (LeftWall == WallState.Broken)
             {
                 spriteBatch.Draw(Texture, LeftBound, GraphicsAssets.Instance.VerticalBroken, Color.White);
             }
+            else if (LeftWall == WallState.Breaking)
+            {
+                spriteBatch.Draw(Texture, LeftBound, GraphicsAssets.Instance.Vertical, Color.White);
+                spriteBatch.Draw(Texture, LeftBound, GraphicsAssets.Instance.VerticalDamaged, new Color(255, 0, 0, WallAnimateTime[2] * 0.5f));
+            }
 
-            if (RightWall == WallType.Sealed)
+            if (RightWall == WallState.Sealed)
             {
                 spriteBatch.Draw(Texture, RightBound, GraphicsAssets.Instance.Vertical, Color.White);
             }
-            else if (RightWall == WallType.Broken)
+            else if (RightWall == WallState.Broken)
             {
                 spriteBatch.Draw(Texture, RightBound, GraphicsAssets.Instance.VerticalBroken, Color.White);
+            }
+            else if (RightWall == WallState.Breaking)
+            {
+                spriteBatch.Draw(Texture, RightBound, GraphicsAssets.Instance.Vertical, Color.White);
+                spriteBatch.Draw(Texture, RightBound, GraphicsAssets.Instance.VerticalDamaged, new Color(255, 0, 0, WallAnimateTime[3] * 0.5f));
             }
         }
 

@@ -7,6 +7,7 @@ namespace MazeMaster.Game.Humans
 {
     public enum UnitType
     {
-        Basic,
+        Basic, // only try to change direction when it hit a wall
+        Breaker
     }
 }

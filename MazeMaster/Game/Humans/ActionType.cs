@@ -9,6 +9,6 @@ namespace MazeMaster.Game.Humans
     {
         None,
         Move,
-        DestroyWall,
+        DestroyWeakWall,
     }
 }

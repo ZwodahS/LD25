@@ -12,6 +12,8 @@ namespace MazeMaster
     public class GameScreen
     {
         private Maze CurrentMaze;
+
+
         public GameScreen()
         {
                
@@ -22,14 +24,15 @@ namespace MazeMaster
         {
             Random rng = new Random();
             CurrentMaze = new Maze(MazeGenerator.GenerateMaze(25, 25, rng.Next()));
-            CurrentMaze.AddUnit(UnitType.Basic, rng.Next(0,25),rng.Next(0,25));
-            CurrentMaze.AddUnit(UnitType.Basic, rng.Next(0, 25), rng.Next(0, 25));
-            CurrentMaze.AddUnit(UnitType.Basic, rng.Next(0, 25), rng.Next(0, 25));
-            CurrentMaze.AddUnit(UnitType.Basic, rng.Next(0, 25), rng.Next(0, 25));
-            CurrentMaze.AddUnit(UnitType.Basic, rng.Next(0, 25), rng.Next(0, 25));
-            CurrentMaze.AddUnit(UnitType.Basic, rng.Next(0, 25), rng.Next(0, 25));
-            CurrentMaze.AddUnit(UnitType.Basic, rng.Next(0, 25), rng.Next(0, 25));
-            CurrentMaze.AddUnit(UnitType.Basic, rng.Next(0, 25), rng.Next(0, 25));
+            CurrentMaze.AddUnit(UnitType.Breaker, rng.Next(5, 20), rng.Next(5, 20));
+/*
+            CurrentMaze.AddUnit(UnitType.Basic, rng.Next(5,20),rng.Next(5,20));
+            CurrentMaze.AddUnit(UnitType.Basic, rng.Next(5,20), rng.Next(5,20));
+            CurrentMaze.AddUnit(UnitType.Basic, rng.Next(5,20), rng.Next(5,20));
+            CurrentMaze.AddUnit(UnitType.Basic, rng.Next(5,20), rng.Next(5,20));
+            CurrentMaze.AddUnit(UnitType.Breaker, rng.Next(5,20), rng.Next(5,20));
+            CurrentMaze.AddUnit(UnitType.Basic, rng.Next(5,20), rng.Next(5,20));
+            CurrentMaze.AddUnit(UnitType.Breaker, rng.Next(5,20), rng.Next(5,20));*/
         }
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)

@@ -19,6 +19,14 @@ namespace MazeMaster.Game.Humans
         protected Vector2 TargetLocation;
         protected Rectangle SourceBound;
         public Direction CurrentFacingDirection;
+
+        public UnitAction? CurrentAction;
+
+
+
+
+
+
         public Unit()
         {
         }
@@ -34,65 +42,148 @@ namespace MazeMaster.Game.Humans
             this.Position = vector;
         }
 
+
+
         public void Update(GameTime gameTime)
         {
-            if (CurrentGrid != TargetGrid)
+            if (CurrentAction != null)
             {
-                // for simplicity sake, the movement in this game will only only either be in the x or y direction and never both.
-                Vector2 move = (float)(gameTime.ElapsedGameTime.TotalSeconds) * MovementVector;
-                Position = Position + move;
-                if (move.X != 0)
+                UnitAction action = ((UnitAction)CurrentAction);
+                if (action.Type == ActionType.Move)
                 {
-                    if (move.X > 0)
+                    if (CurrentGrid != TargetGrid)
                     {
-                        if (Position.X > TargetLocation.X)
+                        // for simplicity sake, the movement in this game will only only either be in the x or y direction and never both.
+                        Vector2 move = (float)(gameTime.ElapsedGameTime.TotalSeconds) * MovementVector;
+                        Position = Position + move;
+                        if (move.X != 0)
                         {
-                            Position.X = TargetLocation.X;
-                            ReachLocation();
+                            if (move.X > 0)
+                            {
+                                if (Position.X > TargetLocation.X)
+                                {
+                                    Position.X = TargetLocation.X;
+                                    ReachLocation();
+                                }
+                            }
+                            else
+                            {
+                                if (Position.X < TargetLocation.X)
+                                {
+                                    Position.X = TargetLocation.X;
+                                    ReachLocation();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (move.Y > 0)
+                            {
+                                if (Position.Y > TargetLocation.Y)
+                                {
+                                    Position.Y = TargetLocation.Y;
+                                    ReachLocation();
+                                }
+                            }
+                            else
+                            {
+                                if (Position.Y < TargetLocation.Y)
+                                {
+                                    Position.Y = TargetLocation.Y;
+                                    ReachLocation();
+                                }
+                            }
                         }
                     }
-                    else
+                    else 
                     {
-                        if (Position.X < TargetLocation.X)
-                        {
-                            Position.X = TargetLocation.X;
-                            ReachLocation();
-                        }
+
                     }
                 }
-                else
+                else if (action.Type == ActionType.DestroyWeakWall)
                 {
-                    if (move.Y > 0)
+                    Direction d = Helper.GetDirection(this.CurrentGrid,action.TargetGrid);
+                    CurrentFacingDirection = d;
+                    Grid face = Helper.GetFrontOf(this.CurrentGrid, d);
+                    Tile t = TargetMaze.GetTile(face);
+                    float damage = (1) * (float)gameTime.ElapsedGameTime.TotalSeconds; // the (1) is the "damage per sec" done by the unit
+                    int targetwall = 0;
+                    if (d == Direction.Up) //wall target is down of tile
                     {
-                        if (Position.Y > TargetLocation.Y)
-                        {
-                            Position.Y = TargetLocation.Y;
-                            ReachLocation();
-                        }
+                        targetwall = Tile.Down;
+                        t.DownWall = WallState.Breaking;
                     }
-                    else
+                    else if (d == Direction.Down)
                     {
-                        if (Position.Y < TargetLocation.Y)
+                        targetwall = Tile.Up;
+                        t.UpWall = WallState.Breaking;
+                    }
+                    else if (d == Direction.Left)
+                    {
+                        targetwall = Tile.Right;
+                        t.RightWall = WallState.Breaking;
+                    }
+                    else if (d == Direction.Right)
+                    {
+                        targetwall = Tile.Left;
+                        t.LeftWall = WallState.Breaking;
+                    }
+
+                    t.WallAnimateTime[targetwall] += damage;
+                    if (t.WallAnimateTime[targetwall] >= 1)
+                    {
+                        if (targetwall == Tile.Down)
                         {
-                            Position.Y = TargetLocation.Y;
-                            ReachLocation();
+                            t.DownWall = WallState.Broken;
                         }
+                        else if (targetwall == Tile.Up)
+                        {
+                            t.UpWall = WallState.Broken;
+                        }
+                        else if (targetwall == Tile.Left)
+                        {
+                            t.LeftWall = WallState.Broken;
+                        }
+                        else if (targetwall == Tile.Right)
+                        {
+                            t.RightWall = WallState.Broken;
+                        }
+                        CurrentAction = null;
+                        t.WallAnimateTime[targetwall] = 0;
                     }
                 }
             }
-            else // reach location or finish action
+            else
             {
                 UnitAction action = GetNextAction();
+                CurrentAction = action;
                 if (action.Type == ActionType.Move)
                 {
                     MoveTo(action.TargetGrid);
                 }
+                else if (action.Type == ActionType.DestroyWeakWall)
+                {
+                    DestroyWeakWall(action.TargetGrid);
+                }
             }
+
+
+            
+            
         }
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            spriteBatch.Draw(GraphicsAssets.Instance.MainSprite, new Rectangle((int)Position.X, (int)Position.Y, 32, 32), SourceBound, Color.White);
+            Rectangle drawSource = SourceBound;
+            switch (CurrentFacingDirection)
+            {
+                case Direction.Right: drawSource.X += 32; break;
+                case Direction.Down: drawSource.X += 64; break;
+                case Direction.Left: drawSource.X += 96; break;
+                default:
+                    break;
+            }
+            spriteBatch.Draw(GraphicsAssets.Instance.MainSprite, new Rectangle((int)Position.X, (int)Position.Y, 32, 32), drawSource, Color.White);
         }
 
         public Rectangle DrawBound
@@ -107,6 +198,7 @@ namespace MazeMaster.Game.Humans
         {
             MovementVector = Vector2.Zero;
             CurrentGrid = TargetGrid;
+            CurrentAction = null;
         }
 
         /// <summary>
@@ -148,7 +240,7 @@ namespace MazeMaster.Game.Humans
             // ensure that there is no sealed wall or obstacle in that direction of movement
             else if (moveDirection == Direction.Right)
             {
-                if (Helper.IsBlocked(new WallType[] { currTile.RightWall, targetTile.LeftWall },new ObstacleType[]{targetTile.Obstacle}))
+                if (Helper.IsBlocked(new WallState[] { currTile.RightWall, targetTile.LeftWall },new ObstacleType[]{targetTile.Obstacle}))
                 {
                     return false;
                 }
@@ -156,7 +248,7 @@ namespace MazeMaster.Game.Humans
             }
             else if (moveDirection == Direction.Left)
             {
-                if (Helper.IsBlocked(new WallType[] { currTile.LeftWall, targetTile.RightWall }, new ObstacleType[] { targetTile.Obstacle }))
+                if (Helper.IsBlocked(new WallState[] { currTile.LeftWall, targetTile.RightWall }, new ObstacleType[] { targetTile.Obstacle }))
                 {
                     return false;
                 }
@@ -164,7 +256,7 @@ namespace MazeMaster.Game.Humans
             }
             else if (moveDirection == Direction.Up)
             {
-                if (Helper.IsBlocked(new WallType[] { currTile.UpWall, targetTile.DownWall }, new ObstacleType[] { targetTile.Obstacle }))
+                if (Helper.IsBlocked(new WallState[] { currTile.UpWall, targetTile.DownWall }, new ObstacleType[] { targetTile.Obstacle }))
                 {
                     return false;
                 }
@@ -172,7 +264,7 @@ namespace MazeMaster.Game.Humans
             }
             else if (moveDirection == Direction.Down)
             {
-                if (Helper.IsBlocked(new WallType[] { currTile.DownWall, targetTile.UpWall }, new ObstacleType[] { targetTile.Obstacle }))
+                if (Helper.IsBlocked(new WallState[] { currTile.DownWall, targetTile.UpWall }, new ObstacleType[] { targetTile.Obstacle }))
                 {
                     return false;
                 }
@@ -180,6 +272,14 @@ namespace MazeMaster.Game.Humans
             }
             return false;
         }
+
+        public void DestroyWeakWall(Grid grid) //TODO : refactor this
+        {
+            
+        }
+        
+        
+
 
         /// <summary>
         /// The main method that all new "maze solving algorithm" needs to implement.

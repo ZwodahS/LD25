@@ -19,6 +19,8 @@ namespace MazeMaster.Assets
         public Rectangle Vertical;
         public Rectangle HorizontalHighlighted;
         public Rectangle VerticalHighlighted;
+        public Rectangle HorizontalDamaged;
+        public Rectangle VerticalDamaged;
         public Rectangle HorizontalBroken;
         public Rectangle VerticalBroken;
         public Rectangle[] Characters;
@@ -45,13 +47,15 @@ namespace MazeMaster.Assets
             Instance.Vertical = new Rectangle(0, 0, 4, 32);
             Instance.HorizontalHighlighted = new Rectangle(64, 0, 32, 4);
             Instance.VerticalHighlighted = new Rectangle(64, 0, 4, 32);
+            Instance.HorizontalDamaged = new Rectangle(64, 32, 32, 4);
+            Instance.VerticalDamaged = new Rectangle(64, 32, 4, 32);
             Instance.HorizontalBroken = new Rectangle(0, 28, 32, 4);
             Instance.VerticalBroken = new Rectangle(28, 0, 4, 32);
 
             Instance.Characters = new Rectangle[4];
             for (int i = 0; i < Instance.Characters.Length; i++)
             {
-                Instance.Characters[i] = new Rectangle(i * 32, 64, 32, 32);
+                Instance.Characters[i] = new Rectangle(0, 64+(i*32), 32, 32);
             }
 
             Instance.RockObstacle = new Rectangle(0, 32, 32, 32);
