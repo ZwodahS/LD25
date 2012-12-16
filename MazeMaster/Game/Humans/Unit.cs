@@ -410,13 +410,13 @@ namespace MazeMaster.Game.Humans
             if (type == UnitType.Basic)
             {
                 unit = new BasicHuman();
-                unit.RansomAmount = (int)(5000 * timeBonus);
+                unit.RansomAmount = (int)(50000 * timeBonus);
                 unit.RansomTimeLeft = (int)(40 * timeBonus);
             }
             else if (type == UnitType.Breaker)
             {
                 unit = new Breaker();
-                unit.RansomAmount = (int)(10000 * timeBonus);
+                unit.RansomAmount = (int)(100000 * timeBonus);
                 unit.RansomTimeLeft = (int)(25 * timeBonus);
             }
             unit.CurrentFacingDirection = Helper.RandomDirection(false);

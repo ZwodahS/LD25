@@ -24,7 +24,7 @@ namespace MazeMaster.Game
 
         public void Kidnap(Unit unit)
         {
-            Grid grid = new Grid(6,6);
+            Grid grid = new Grid(rng.Next(4,8),rng.Next(4,8));
             unit.SetGrid(grid);
             unit.TargetMaze = this;
             Humans.Add(unit);

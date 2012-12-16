@@ -25,27 +25,36 @@ namespace MazeMaster
         public List<Point> TargetIcons;
         public List<Vector2> TargetTime;
         public List<Vector2> TargetMoney;
+        public List<Vector2> TargetTips;
+
+
         public GameScreen()
         {
             iH = new InputHandler();
             PrepareTargetDraw();
+            TotalTime = 0;
+            HighestRPM = 0;
+            TotalRansom = 0;
         }
 
         public float TotalTime;
 
         public float TotalRansom;
-
-        public Rectangle KidnapButtonDraw = new Rectangle(400 * MazeMaster.ScreenMultiplier, 130 * MazeMaster.ScreenMultiplier, 20 * MazeMaster.ScreenMultiplier, 20 * MazeMaster.ScreenMultiplier);
-        public Rectangle PausePlayButtonDraw = new Rectangle(420 * MazeMaster.ScreenMultiplier, 130 * MazeMaster.ScreenMultiplier, 20 * MazeMaster.ScreenMultiplier, 20 * MazeMaster.ScreenMultiplier);
+        public float HighestRPM;
+        public Rectangle KidnapButtonDraw = new Rectangle(400 * MazeMaster.ScreenMultiplier, 140 * MazeMaster.ScreenMultiplier, 20 * MazeMaster.ScreenMultiplier, 20 * MazeMaster.ScreenMultiplier);
+        public Rectangle PausePlayButtonDraw = new Rectangle(420 * MazeMaster.ScreenMultiplier, 140 * MazeMaster.ScreenMultiplier, 20 * MazeMaster.ScreenMultiplier, 20 * MazeMaster.ScreenMultiplier);
 
         public void RestartLevel()
         {
             TotalTime = 0;
+            HighestRPM = 0;
+            TotalRansom = 0;
             Random rng = new Random();
             CurrentMaze = new Maze(MazeGenerator.GenerateMaze(12, 12, rng.Next()));
             CurrentMaze.Parent = this;
             RandomNext();
             State = GameState.Pause;
+            
         }
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
@@ -63,8 +72,10 @@ namespace MazeMaster
 
             spriteBatch.DrawString(GraphicsAssets.Instance.SideFont, "Career Time   : " + (int)(TotalTime / 60) + " mins  " + (TotalTime % 60).ToString("0.00") + " secs", new Vector2(400 * MazeMaster.ScreenMultiplier, 60 * MazeMaster.ScreenMultiplier), Color.Black);
             spriteBatch.DrawString(GraphicsAssets.Instance.SideFont, "Total Earning : " + "$" + (TotalRansom == 0 ? "0" : TotalRansom.ToString("#,#;(#,#)")), new Vector2(400 * MazeMaster.ScreenMultiplier, 80 * MazeMaster.ScreenMultiplier), Color.Black);
-            float RPM = TotalRansom / TotalTime * 60;
+            float RPM = TotalRansom == 0 ? 0 : TotalRansom / TotalTime * 60;
+            HighestRPM = RPM > HighestRPM ? RPM : HighestRPM;
             spriteBatch.DrawString(GraphicsAssets.Instance.SideFont, "Ransom Per min: " + "$" + (RPM == 0 ? "0" : RPM.ToString("#,#;(#,#)")), new Vector2(400 * MazeMaster.ScreenMultiplier, 100 * MazeMaster.ScreenMultiplier), Color.Black);
+            spriteBatch.DrawString(GraphicsAssets.Instance.SideFont, "Highest RPM   : " + "$" + (HighestRPM == 0 ? "0" : HighestRPM.ToString("#,#;(#,#)")), new Vector2(400 * MazeMaster.ScreenMultiplier, 120 * MazeMaster.ScreenMultiplier), Color.Black);
             for (int i = 0; i < CurrentMaze.Humans.Count; i++)
             {
                 Unit unit = CurrentMaze.Humans[i];
@@ -102,13 +113,15 @@ namespace MazeMaster
                 Targets[i].DrawAt(spriteBatch, gameTime, TargetIcons[i]);
                 spriteBatch.DrawString(GraphicsAssets.Instance.SideFont, Targets[i].RansomAmount.ToString("$#,#;(#,#)"), TargetMoney[i], Color.Black);
                 spriteBatch.DrawString(GraphicsAssets.Instance.SideFont, Targets[i].RansomTimeLeft.ToString("0.00 secs"), TargetTime[i], Color.Black);
+                if (Targets[i] is Breaker)
+                {
+                    spriteBatch.DrawString(GraphicsAssets.Instance.SideFont, "(Break Wall)", TargetTips[i], Color.Black);
+                }
+                
             }
         }
 
-        public void DrawKidnapChoice()
-        {
-
-        }
+        
 
         public void Update(GameTime gameTime)
         {
@@ -209,6 +222,7 @@ namespace MazeMaster
             TargetIcons = new List<Point>();
             TargetTime = new List<Vector2>();
             TargetMoney = new List<Vector2>();
+            TargetTips = new List<Vector2>();
             int mul = MazeMaster.ScreenMultiplier;
             //assuming the number of targets is 6 (since I hardcoded it)
             TargetBGDraws.Add(new Rectangle(100 * mul, 67 * mul, 100 * mul, 100 * mul));
@@ -225,19 +239,26 @@ namespace MazeMaster
             TargetIcons.Add(new Point(284 * mul, 220 * mul));
             TargetIcons.Add(new Point(434 * mul, 220 * mul));
 
-            TargetMoney.Add(new Vector2(114 * mul, 120 * mul));
-            TargetMoney.Add(new Vector2(264 * mul, 120 * mul));
-            TargetMoney.Add(new Vector2(414 * mul, 120 * mul));
-            TargetMoney.Add(new Vector2(114 * mul, 270 * mul));
-            TargetMoney.Add(new Vector2(264 * mul, 270 * mul));
-            TargetMoney.Add(new Vector2(414 * mul, 270 * mul));
+            TargetMoney.Add(new Vector2(114 * mul, 100 * mul));
+            TargetMoney.Add(new Vector2(264 * mul, 100 * mul));
+            TargetMoney.Add(new Vector2(414 * mul, 100 * mul));
+            TargetMoney.Add(new Vector2(114 * mul, 250 * mul));
+            TargetMoney.Add(new Vector2(264 * mul, 250 * mul));
+            TargetMoney.Add(new Vector2(414 * mul, 250 * mul));
 
-            TargetTime.Add(new Vector2(114 * mul, 130 * mul));
-            TargetTime.Add(new Vector2(264 * mul, 130 * mul));
-            TargetTime.Add(new Vector2(414 * mul, 130 * mul));
-            TargetTime.Add(new Vector2(114 * mul, 280 * mul));
-            TargetTime.Add(new Vector2(264 * mul, 280 * mul));
-            TargetTime.Add(new Vector2(414 * mul, 280 * mul));
+            TargetTime.Add(new Vector2(114 * mul, 110 * mul));
+            TargetTime.Add(new Vector2(264 * mul, 110 * mul));
+            TargetTime.Add(new Vector2(414 * mul, 110 * mul));
+            TargetTime.Add(new Vector2(114 * mul, 260 * mul));
+            TargetTime.Add(new Vector2(264 * mul, 260 * mul));
+            TargetTime.Add(new Vector2(414 * mul, 260 * mul));
+
+            TargetTips.Add(new Vector2(114 * mul, 130 * mul));
+            TargetTips.Add(new Vector2(264 * mul, 130 * mul));
+            TargetTips.Add(new Vector2(414 * mul, 130 * mul));
+            TargetTips.Add(new Vector2(114 * mul, 280 * mul));
+            TargetTips.Add(new Vector2(264 * mul, 280 * mul));
+            TargetTips.Add(new Vector2(414 * mul, 280 * mul));
         }
 
         public Grid PointToGrid(Point p)
