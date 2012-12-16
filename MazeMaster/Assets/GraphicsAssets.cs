@@ -25,6 +25,7 @@ namespace MazeMaster.Assets
         public Rectangle VerticalBroken;
         public Rectangle[] Characters;
         public Rectangle RockObstacle;
+        public Rectangle TileHighlight;
 
         public static GraphicsAssets Instance;
 
@@ -60,7 +61,7 @@ namespace MazeMaster.Assets
 
             Instance.RockObstacle = new Rectangle(0, 32, 32, 32);
 
-
+            Instance.TileHighlight = new Rectangle(128, 0, 32, 32);
         }
     }
 }

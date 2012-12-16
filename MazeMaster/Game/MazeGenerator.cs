@@ -16,7 +16,7 @@ namespace MazeMaster.Game
             {
                 for (int c = 0; c < col; c++)
                 {
-                    tiles[r, c] = randomTile(r, c,rng);
+                    tiles[r, c] = RandomTile(r, c,rng);
                 }
             }
 
@@ -24,7 +24,7 @@ namespace MazeMaster.Game
             return tiles;
         }
 
-        private static Tile randomTile(int row, int col, Random random)
+        public static Tile RandomTile(int row, int col, Random random)
         {
             Tile t = new Tile(row, col);
             int rand = random.Next(0, 2);
@@ -39,7 +39,7 @@ namespace MazeMaster.Game
             return t;
         }
 
-        private static Tile fullTile(int row, int col)
+        public static Tile FullTile(int row, int col)
         {
             Tile t = new Tile(row, col);
             t.LeftWall = WallState.Sealed;

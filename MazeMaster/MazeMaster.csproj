@@ -126,6 +126,7 @@
     <Compile Include="Game\ObstacleType.cs" />
     <Compile Include="Game\Tile.cs" />
     <Compile Include="Game\WallType.cs" />
+    <Compile Include="Inputs\InputHandler.cs" />
     <Compile Include="MazeMaster.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />

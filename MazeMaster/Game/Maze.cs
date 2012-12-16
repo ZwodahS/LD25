@@ -83,5 +83,16 @@ namespace MazeMaster.Game
             }
             return true;
         }
+
+        public void PlaceTile(Tile NextTile, Grid g)
+        {
+            NextTile.CurrentGrid = g;
+            Tiles[g.Row, g.Col] = NextTile;
+        }
+
+        public bool CanPlace(Grid g)
+        {
+            return true;
+        }
     }
 }

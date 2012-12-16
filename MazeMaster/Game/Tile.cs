@@ -27,7 +27,19 @@ namespace MazeMaster.Game
 
         private int Row;
         private int Col;
-
+        public Grid CurrentGrid
+        {
+            get
+            {
+                return new Grid(Row, Col);
+            }
+            set
+            {
+                Row = value.Row;
+                Col = value.Col;
+                UpdateBound();
+            }
+        }
         private Rectangle DrawBound;
         private Rectangle UpBound;
         private Rectangle DownBound;
