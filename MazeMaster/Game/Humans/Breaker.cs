@@ -12,7 +12,7 @@ namespace MazeMaster.Game.Humans
         public Breaker()
             : base()
         {
-            SourceBound = GraphicsAssets.Instance.Characters[1];
+            UnitTypeSource = GraphicsAssets.Instance.UnitType2;
         }
         protected bool CanDestroyWall(WallState currTile, WallState targetTile)
         {

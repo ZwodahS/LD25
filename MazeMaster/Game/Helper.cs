@@ -65,7 +65,7 @@ namespace MazeMaster.Game
         {
             foreach (WallState wall in walls)
             {
-                if (wall == WallState.Sealed) 
+                if (wall == WallState.Sealed || wall == WallState.Breaking) 
                 {
                     return true;
                 }

@@ -14,10 +14,12 @@ namespace MazeMaster.Game
         protected Tile[,] Tiles;
 
         public List<Unit> Humans;
+        private Random rng;
         public Maze(Tile[,] tiles)
         {
             this.Tiles = tiles;
             Humans = new List<Unit>();
+            rng = new Random();
         }
 
         public void AddUnit(UnitType type,int row,int col)
@@ -35,6 +37,10 @@ namespace MazeMaster.Game
             unit.SetGrid(grid);
             unit.TargetMaze = this;
             unit.CurrentFacingDirection = Helper.RandomDirection(false);
+            unit.RansomAmount = 1000000;
+            unit.RansomTimeLeft = 5;
+            unit.BorderColor = new Color(rng.Next(100, 256), rng.Next(100, 256), rng.Next(100, 256), 255);
+            unit.InternalColor = new Color(rng.Next(100, 256), rng.Next(100, 256), rng.Next(100, 256), 255);
             Humans.Add(unit);
         }
 
@@ -113,6 +119,12 @@ namespace MazeMaster.Game
         public void UnitEscape(Unit unit)
         {
             Parent.UnitEscape(unit);
+            Humans.Remove(unit);
+        }
+
+        public void RansomPaid(Unit unit)
+        {
+            Parent.RansomPaid(unit);
             Humans.Remove(unit);
         }
     }

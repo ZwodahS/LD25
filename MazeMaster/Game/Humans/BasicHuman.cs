@@ -11,7 +11,7 @@ namespace MazeMaster.Game.Humans
         public BasicHuman()
             : base()
         {
-            SourceBound = GraphicsAssets.Instance.Characters[0];
+            UnitTypeSource = GraphicsAssets.Instance.UnitType1;
         }
         // move to the next possible place, 
         protected override UnitAction GetNextAction()

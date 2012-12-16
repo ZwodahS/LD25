@@ -23,7 +23,6 @@ namespace MazeMaster.Assets
         public Rectangle VerticalDamaged;
         public Rectangle HorizontalBroken;
         public Rectangle VerticalBroken;
-        public Rectangle[] Characters;
         public Rectangle RockObstacle;
         public Rectangle TileHighlight;
 
@@ -31,6 +30,11 @@ namespace MazeMaster.Assets
 
         public static GraphicsAssets Instance;
 
+        public Rectangle UnitBorder;
+        public Rectangle UnitInternal;
+        public Rectangle UnitType1;
+        public Rectangle UnitType2;
+        public Rectangle UnitType3;
         
 
         public GraphicsAssets()
@@ -55,20 +59,25 @@ namespace MazeMaster.Assets
             Instance.HorizontalBroken = new Rectangle(0, 28, 32, 4);
             Instance.VerticalBroken = new Rectangle(28, 0, 4, 32);
 
-            Instance.Characters = new Rectangle[4];
-            for (int i = 0; i < Instance.Characters.Length; i++)
-            {
-                Instance.Characters[i] = new Rectangle(0, 64+(i*32), 32, 32);
-            }
-
             Instance.RockObstacle = new Rectangle(0, 32, 32, 32);
 
             Instance.TileHighlight = new Rectangle(128, 0, 32, 32);
             Instance.ExitTile = new Rectangle(96, 0, 32, 32);
 
-
-
-            Instance.SideFont = content.Load<SpriteFont>("sidefont");
+            //units
+            Instance.UnitBorder = new Rectangle(0, 64, 32, 32);
+            Instance.UnitInternal = new Rectangle(0, 96, 32, 32);
+            Instance.UnitType1 = new Rectangle(0, 128, 32, 32);
+            Instance.UnitType2 = new Rectangle(0, 160, 32, 32);
+            Instance.UnitType3 = new Rectangle(0, 192, 32, 32);
+            if (MazeMaster.ScreenMultiplier == 1)
+            {
+                Instance.SideFont = content.Load<SpriteFont>("sidefontsmall");
+            }
+            else if (MazeMaster.ScreenMultiplier == 2)
+            {
+                Instance.SideFont = content.Load<SpriteFont>("sidefont");
+            }
         }
     }
 }

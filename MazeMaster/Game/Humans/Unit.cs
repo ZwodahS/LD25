@@ -17,15 +17,17 @@ namespace MazeMaster.Game.Humans
         public Vector2 Position;
         protected Vector2 MovementVector;
         protected Vector2 TargetLocation;
-        protected Rectangle SourceBound;
         public Direction CurrentFacingDirection;
 
         public UnitAction? CurrentAction;
 
+        public float RansomTimeLeft;
+        public float RansomAmount;
 
 
-
-
+        protected Rectangle UnitTypeSource;
+        public Color InternalColor;
+        public Color BorderColor;
 
         public Unit()
         {
@@ -46,89 +48,168 @@ namespace MazeMaster.Game.Humans
 
         public void Update(GameTime gameTime)
         {
-            if (CurrentAction != null)
+            RansomTimeLeft -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (RansomTimeLeft <= 0)
             {
-                UnitAction action = ((UnitAction)CurrentAction);
-                if (action.Type == ActionType.Move)
+                TargetMaze.RansomPaid(this);
+            }
+            else 
+            {
+                if (CurrentAction != null)
                 {
-                    if (CurrentGrid != TargetGrid)
+                    UpdateAction(gameTime);
+                }
+                else
+                {
+                    UnitAction action = GetNextAction();
+                    CurrentAction = action;
+                    if (action.Type == ActionType.Move)
                     {
-                        // for simplicity sake, the movement in this game will only only either be in the x or y direction and never both.
-                        Vector2 move = (float)(gameTime.ElapsedGameTime.TotalSeconds) * MovementVector;
-                        Position = Position + move;
-                        if (move.X != 0)
+                        MoveTo(action.TargetGrid);
+                    }
+                    else if (action.Type == ActionType.DestroyWeakWall)
+                    {
+                        DestroyWeakWall(action.TargetGrid);
+                    }
+                    else
+                    {
+                        CurrentAction = null;
+                    }
+                }
+            }
+            
+        }
+        public void UpdateAction(GameTime gameTime)
+        {
+            UnitAction action = ((UnitAction)CurrentAction);
+            if (action.Type == ActionType.Move)
+            {
+                if (CurrentGrid != TargetGrid)
+                {
+                    // for simplicity sake, the movement in this game will only only either be in the x or y direction and never both.
+                    Vector2 move = (float)(gameTime.ElapsedGameTime.TotalSeconds) * MovementVector;
+                    Position = Position + move;
+                    if (move.X != 0)
+                    {
+                        if (move.X > 0)
                         {
-                            if (move.X > 0)
+                            if (Position.X > TargetLocation.X)
                             {
-                                if (Position.X > TargetLocation.X)
-                                {
-                                    Position.X = TargetLocation.X;
-                                    ReachLocation();
-                                }
-                            }
-                            else
-                            {
-                                if (Position.X < TargetLocation.X)
-                                {
-                                    Position.X = TargetLocation.X;
-                                    ReachLocation();
-                                }
+                                Position.X = TargetLocation.X;
+                                ReachLocation();
                             }
                         }
                         else
                         {
-                            if (move.Y > 0)
+                            if (Position.X < TargetLocation.X)
                             {
-                                if (Position.Y > TargetLocation.Y)
-                                {
-                                    Position.Y = TargetLocation.Y;
-                                    ReachLocation();
-                                }
-                            }
-                            else
-                            {
-                                if (Position.Y < TargetLocation.Y)
-                                {
-                                    Position.Y = TargetLocation.Y;
-                                    ReachLocation();
-                                }
+                                Position.X = TargetLocation.X;
+                                ReachLocation();
                             }
                         }
                     }
-                    else 
+                    else
                     {
-
+                        if (move.Y > 0)
+                        {
+                            if (Position.Y > TargetLocation.Y)
+                            {
+                                Position.Y = TargetLocation.Y;
+                                ReachLocation();
+                            }
+                        }
+                        else
+                        {
+                            if (Position.Y < TargetLocation.Y)
+                            {
+                                Position.Y = TargetLocation.Y;
+                                ReachLocation();
+                            }
+                        }
                     }
                 }
-                else if (action.Type == ActionType.DestroyWeakWall)
+                else
                 {
-                    Direction d = Helper.GetDirection(this.CurrentGrid,action.TargetGrid);
-                    CurrentFacingDirection = d;
-                    Grid face = Helper.GetFrontOf(this.CurrentGrid, d);
-                    Tile t = TargetMaze.GetTile(face);
-                    float damage = (1) * (float)gameTime.ElapsedGameTime.TotalSeconds; // the (1) is the "damage per sec" done by the unit
-                    int targetwall = 0;
+
+                }
+            }
+            else if (action.Type == ActionType.DestroyWeakWall)
+            {
+                Direction d = Helper.GetDirection(this.CurrentGrid, action.TargetGrid);
+                CurrentFacingDirection = d;
+                Grid face = Helper.GetFrontOf(this.CurrentGrid, d);
+                Tile t = TargetMaze.GetTile(face);
+                float damage = (1) * (float)gameTime.ElapsedGameTime.TotalSeconds; // the (1) is the "damage per sec" done by the unit
+                int targetwall = 0;
+                if (d == Direction.Up) //wall target is down of tile
+                {
+                    targetwall = Tile.Down;
+                }
+                else if (d == Direction.Down)
+                {
+                    targetwall = Tile.Up;
+                }
+                else if (d == Direction.Left)
+                {
+                    targetwall = Tile.Right;
+                }
+                else if (d == Direction.Right)
+                {
+                    targetwall = Tile.Left;
+                }
+                // check for destruction first.
+                bool destroyed = false;
+                if (targetwall == Tile.Down)
+                {
+                    if (t.DownWall == WallState.Broken || t.DownWall == WallState.None)
+                    {
+                        destroyed = true;
+                    }
+                }
+                else if (targetwall == Tile.Up)
+                {
+                    if (t.UpWall == WallState.Broken || t.UpWall == WallState.None)
+                    {
+                        destroyed = true;
+                    }
+                }
+                else if (targetwall == Tile.Left)
+                {
+                    if (t.LeftWall == WallState.Broken || t.LeftWall == WallState.None)
+                    {
+                        destroyed = true;
+                    }
+                }
+                else if (targetwall == Tile.Right)
+                {
+                    if (t.RightWall == WallState.Broken || t.RightWall == WallState.None)
+                    {
+                        destroyed = true;
+                    }
+                }
+                if (destroyed)
+                {
+                    CurrentAction = null;
+                    t.WallAnimateTime[targetwall] = 0;
+                }
+                else
+                {
                     if (d == Direction.Up) //wall target is down of tile
                     {
-                        targetwall = Tile.Down;
                         t.DownWall = WallState.Breaking;
                     }
                     else if (d == Direction.Down)
                     {
-                        targetwall = Tile.Up;
                         t.UpWall = WallState.Breaking;
                     }
                     else if (d == Direction.Left)
                     {
-                        targetwall = Tile.Right;
                         t.RightWall = WallState.Breaking;
                     }
                     else if (d == Direction.Right)
                     {
-                        targetwall = Tile.Left;
                         t.LeftWall = WallState.Breaking;
                     }
-
                     t.WallAnimateTime[targetwall] += damage;
                     if (t.WallAnimateTime[targetwall] >= 1)
                     {
@@ -149,74 +230,53 @@ namespace MazeMaster.Game.Humans
                             t.RightWall = WallState.Broken;
                         }
                     }
-                    // This handles the case that another unit has already destroy this tile or the tile has been replaced by player
-                    bool destroyed = false;
-                    if (targetwall == Tile.Down)
-                    {
-                        if (t.DownWall == WallState.Broken || t.DownWall == WallState.None)
-                        {
-                            destroyed = true;
-                        }
-                    }
-                    else if (targetwall == Tile.Up)
-                    {
-                        if (t.UpWall == WallState.Broken || t.UpWall == WallState.None)
-                        {
-                            destroyed = true;
-                        }
-                    }
-                    else if (targetwall == Tile.Left)
-                    {
-                        if (t.LeftWall == WallState.Broken || t.LeftWall == WallState.None)
-                        {
-                            destroyed = true;
-                        }
-                    }
-                    else if (targetwall == Tile.Right)
-                    {
-                        if (t.RightWall == WallState.Broken || t.RightWall == WallState.None)
-                        {
-                            destroyed = true;
-                        }
-                    }
-                    if (destroyed)
-                    {
-                        CurrentAction = null;
-                        t.WallAnimateTime[targetwall] = 0;
-                    }
                 }
-            }
-            else
-            {
-                UnitAction action = GetNextAction();
-                CurrentAction = action;
-                if (action.Type == ActionType.Move)
-                {
-                    MoveTo(action.TargetGrid);
-                }
-                else if (action.Type == ActionType.DestroyWeakWall)
-                {
-                    DestroyWeakWall(action.TargetGrid);
-                }
-            }
 
-
-            
-            
+            }
         }
-
-        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        public void DrawAt(SpriteBatch spriteBatch, GameTime gameTime,Point location)
         {
-            Rectangle drawSource = SourceBound;
+            int drawOffset = 0;
             switch (CurrentFacingDirection)
             {
-                case Direction.Right: drawSource.X += 32; break;
-                case Direction.Down: drawSource.X += 64; break;
-                case Direction.Left: drawSource.X += 96; break;
+                case Direction.Right: drawOffset = 32; break;
+                case Direction.Down: drawOffset = 64; break;
+                case Direction.Left: drawOffset = 96; break;
                 default:
                     break;
             }
-            spriteBatch.Draw(GraphicsAssets.Instance.MainSprite, new Rectangle((int)Position.X, (int)Position.Y, MazeMaster.TileSize, MazeMaster.TileSize), drawSource, Color.White);
+            Rectangle drawBound = new Rectangle((int)location.X, (int)location.Y, MazeMaster.TileSize, MazeMaster.TileSize);
+            Rectangle draw = GraphicsAssets.Instance.UnitBorder;
+            draw.X += drawOffset;
+            spriteBatch.Draw(GraphicsAssets.Instance.MainSprite, drawBound, draw, BorderColor);
+            draw = GraphicsAssets.Instance.UnitInternal;
+            draw.X += drawOffset;
+            spriteBatch.Draw(GraphicsAssets.Instance.MainSprite, drawBound, draw, InternalColor);
+            draw = UnitTypeSource;
+            draw.X += drawOffset;
+            spriteBatch.Draw(GraphicsAssets.Instance.MainSprite, drawBound, draw, Color.White);
+        }
+        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        {
+            int drawOffset = 0;
+            switch (CurrentFacingDirection)
+            {
+                case Direction.Right: drawOffset = 32; break;
+                case Direction.Down: drawOffset = 64; break;
+                case Direction.Left: drawOffset = 96; break;
+                default:
+                    break;
+            }
+            Rectangle drawBound = new Rectangle((int)Position.X, (int)Position.Y, MazeMaster.TileSize, MazeMaster.TileSize);
+            Rectangle draw = GraphicsAssets.Instance.UnitBorder;
+            draw.X += drawOffset;
+            spriteBatch.Draw(GraphicsAssets.Instance.MainSprite, drawBound, draw, BorderColor);
+            draw = GraphicsAssets.Instance.UnitInternal;
+            draw.X += drawOffset;
+            spriteBatch.Draw(GraphicsAssets.Instance.MainSprite, drawBound, draw, InternalColor);
+            draw = UnitTypeSource;
+            draw.X += drawOffset;
+            spriteBatch.Draw(GraphicsAssets.Instance.MainSprite, drawBound, draw, Color.White);
         }
 
         public Rectangle DrawBound
