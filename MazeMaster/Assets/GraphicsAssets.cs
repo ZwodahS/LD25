@@ -25,7 +25,6 @@ namespace MazeMaster.Assets
         public Rectangle VerticalBroken;
         public Rectangle RockObstacle;
         public Rectangle TileHighlight;
-
         public SpriteFont SideFont;
 
         public static GraphicsAssets Instance;
@@ -41,6 +40,10 @@ namespace MazeMaster.Assets
 
         public Rectangle KidnapButton;
         public Rectangle KidnapChoice;
+
+        public Rectangle ExplodingRect;
+        public Rectangle GhostRect;
+
         public GraphicsAssets()
         {
             
@@ -88,6 +91,9 @@ namespace MazeMaster.Assets
 
             Instance.KidnapButton = new Rectangle(220, 200, 20, 20);
             Instance.KidnapChoice = new Rectangle(220, 220, 100, 100);
+
+            Instance.ExplodingRect = new Rectangle(96, 32, 32, 32);
+            Instance.GhostRect = new Rectangle(128, 32, 32, 32);
         }
     }
 }

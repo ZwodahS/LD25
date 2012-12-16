@@ -5,9 +5,10 @@ using System.Text;
 
 namespace MazeMaster.Game.Humans
 {
-    public enum UnitType
+    public enum BloodType
     {
-        Basic, // only try to change direction when it hit a wall
-        Breaker
+        A, 
+        B,
+        O,
     }
 }

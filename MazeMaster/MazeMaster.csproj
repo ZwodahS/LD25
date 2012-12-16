@@ -118,8 +118,9 @@
     <Compile Include="Game\Grid.cs" />
     <Compile Include="Game\Helper.cs" />
     <Compile Include="Game\Humans\ActionType.cs" />
-    <Compile Include="Game\Humans\BasicHuman.cs" />
-    <Compile Include="Game\Humans\Breaker.cs" />
+    <Compile Include="Game\Humans\BloodA.cs" />
+    <Compile Include="Game\Humans\BloodB.cs" />
+    <Compile Include="Game\Humans\BloodO.cs" />
     <Compile Include="Game\Humans\Unit.cs" />
     <Compile Include="Game\Humans\UnitAction.cs" />
     <Compile Include="Game\Humans\UnitType.cs" />

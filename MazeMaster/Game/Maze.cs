@@ -26,7 +26,7 @@ namespace MazeMaster.Game
         {
             Grid grid = new Grid(rng.Next(4,8),rng.Next(4,8));
             unit.SetGrid(grid);
-            unit.TargetMaze = this;
+            unit.ContainingMaze = this;
             Humans.Add(unit);
         }
 

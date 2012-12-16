@@ -10,5 +10,9 @@ namespace MazeMaster.Game.Humans
         None,
         Move,
         DestroyWeakWall,
+        Explode, //Blood A panic attack , TargetGrid will be the current grid.
+        Ghost, //Blood B panic attack , TargetGrid will be the grid to the ghost to.
+        Rage, //Blood C panic attack , TargetGrid will be the current grid. , rage in the facing direction
+        Dash,
     }
 }

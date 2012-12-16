@@ -113,7 +113,7 @@ namespace MazeMaster
                 Targets[i].DrawAt(spriteBatch, gameTime, TargetIcons[i]);
                 spriteBatch.DrawString(GraphicsAssets.Instance.SideFont, Targets[i].RansomAmount.ToString("$#,#;(#,#)"), TargetMoney[i], Color.Black);
                 spriteBatch.DrawString(GraphicsAssets.Instance.SideFont, Targets[i].RansomTimeLeft.ToString("0.00 secs"), TargetTime[i], Color.Black);
-                if (Targets[i] is Breaker)
+                if (Targets[i] is BloodB)
                 {
                     spriteBatch.DrawString(GraphicsAssets.Instance.SideFont, "(Break Wall)", TargetTips[i], Color.Black);
                 }

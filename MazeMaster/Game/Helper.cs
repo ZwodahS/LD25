@@ -79,7 +79,14 @@ namespace MazeMaster.Game
             }
             return false;
         }
-
+        public static bool HasWall(WallState state)
+        {
+            if (state == WallState.Sealed || state == WallState.Breaking)
+            {
+                return true;
+            }
+            return false;
+        }
         public static Grid GetFrontOf(Grid currentGrid, Direction facingDirection)
         {
             Grid targetGrid = currentGrid;
