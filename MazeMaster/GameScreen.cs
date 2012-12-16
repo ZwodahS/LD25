@@ -11,7 +11,7 @@ using MazeMaster.Assets;
 
 namespace MazeMaster
 {
-    public class GameScreen
+    public class GameScreen :Screen
     {
         private Maze CurrentMaze;
 
@@ -28,7 +28,7 @@ namespace MazeMaster
         public List<Vector2> TargetTips;
 
 
-        public GameScreen()
+        public GameScreen(MazeMaster parent):base(parent)
         {
             iH = new InputHandler();
             PrepareTargetDraw();
@@ -53,11 +53,11 @@ namespace MazeMaster
             CurrentMaze = new Maze(MazeGenerator.GenerateMaze(12, 12, rng.Next()));
             CurrentMaze.Parent = this;
             RandomNext();
-            State = GameState.Pause;
+            State = GameState.Placement;
             
         }
 
-        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             spriteBatch.Begin();
             CurrentMaze.Draw(spriteBatch, gameTime);
@@ -113,17 +113,12 @@ namespace MazeMaster
                 Targets[i].DrawAt(spriteBatch, gameTime, TargetIcons[i]);
                 spriteBatch.DrawString(GraphicsAssets.Instance.SideFont, Targets[i].RansomAmount.ToString("$#,#;(#,#)"), TargetMoney[i], Color.Black);
                 spriteBatch.DrawString(GraphicsAssets.Instance.SideFont, Targets[i].RansomTimeLeft.ToString("0.00 secs"), TargetTime[i], Color.Black);
-                if (Targets[i] is BloodB)
-                {
-                    spriteBatch.DrawString(GraphicsAssets.Instance.SideFont, "(Break Wall)", TargetTips[i], Color.Black);
-                }
-                
             }
         }
 
         
 
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             iH.Update();
             

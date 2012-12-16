@@ -44,6 +44,17 @@ namespace MazeMaster.Assets
         public Rectangle ExplodingRect;
         public Rectangle GhostRect;
 
+
+        public Texture2D[] Tutorials;
+
+        public Rectangle StartButton;
+        public Rectangle TutorialButton;
+
+        public Rectangle TutorialPrevBound;
+        public Rectangle TutorialNextBound;
+        public Rectangle TutorialExitBound;
+        public Texture2D Home;
+
         public GraphicsAssets()
         {
             
@@ -94,6 +105,22 @@ namespace MazeMaster.Assets
 
             Instance.ExplodingRect = new Rectangle(96, 32, 32, 32);
             Instance.GhostRect = new Rectangle(128, 32, 32, 32);
+
+          
+            Instance.Tutorials = new Texture2D[9];
+            for (int i = 0; i < 9; i++)
+            {
+                Instance.Tutorials[i] = content.Load<Texture2D>("tutorial" + i);
+            }
+
+            Instance.StartButton = new Rectangle(220, 170, 100, 30);
+            Instance.TutorialButton = new Rectangle(220, 140, 100, 30);
+
+            Instance.Home = content.Load<Texture2D>("home");
+
+            Instance.TutorialPrevBound = new Rectangle(0 * MazeMaster.ScreenMultiplier, 350 * MazeMaster.ScreenMultiplier, 100 * MazeMaster.ScreenMultiplier, 34 * MazeMaster.ScreenMultiplier);
+            Instance.TutorialExitBound = new Rectangle(250 * MazeMaster.ScreenMultiplier, 350 * MazeMaster.ScreenMultiplier, 100 * MazeMaster.ScreenMultiplier, 34 * MazeMaster.ScreenMultiplier);
+            Instance.TutorialNextBound = new Rectangle(500 * MazeMaster.ScreenMultiplier, 350 * MazeMaster.ScreenMultiplier, 100 * MazeMaster.ScreenMultiplier, 34 * MazeMaster.ScreenMultiplier);
         }
     }
 }

@@ -21,7 +21,8 @@ namespace MazeMaster
         SpriteBatch spriteBatch;
 
 
-        GameScreen gameScreen;
+
+        Screen CurrentScreen;
         public const int ScreenMultiplier = 2;
         public static int TileSize = 32 * ScreenMultiplier;
         public static int WallSize = 4 * ScreenMultiplier;
@@ -82,12 +83,11 @@ namespace MazeMaster
                 this.Exit();
 
             // TODO: Add your update logic here
-            if (gameScreen == null)
+            if (CurrentScreen == null)
             {
-                gameScreen = new GameScreen();
-                gameScreen.RestartLevel();
+                CurrentScreen = new MainScreen(this);
             }
-            gameScreen.Update(gameTime);
+            CurrentScreen.Update(gameTime);
         }
 
         /// <summary>
@@ -99,10 +99,28 @@ namespace MazeMaster
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            if (gameScreen != null)
+            if (CurrentScreen != null)
             {
-                gameScreen.Draw(spriteBatch, gameTime);
+                CurrentScreen.Draw(spriteBatch, gameTime);
             }
+        }
+
+        internal void StartGame()
+        {
+            GameScreen cs = new GameScreen(this);
+            cs.RestartLevel();
+            CurrentScreen = cs;
+        }
+
+        internal void ShowTutorial()
+        {
+            TutorialScreen cs = new TutorialScreen(this);
+            CurrentScreen = cs;
+        }
+
+        internal void ShowMain()
+        {
+            CurrentScreen = new MainScreen(this);
         }
     }
 }

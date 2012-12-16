@@ -713,7 +713,7 @@ namespace MazeMaster.Game.Humans
             Random rng = new Random();
             for (int i = 0; i < num; i++)
             {
-                int type = rng.Next(0, 3);
+                int type = rng.Next(0, 5);
                 Unit unit = null;
                 if (type == 0)
                 {
@@ -721,11 +721,11 @@ namespace MazeMaster.Game.Humans
                 }
                 else if (type == 1)
                 {
-                    unit = CreateUnit(BloodType.B, rng);
-                }
-                else if (type == 2)
-                {
                     unit = CreateUnit(BloodType.O, rng);
+                }
+                else // higher chance for type b :D make the game slightly more difficult
+                {
+                    unit = CreateUnit(BloodType.B, rng);
                 }
                 targets.Add(unit);
             }
