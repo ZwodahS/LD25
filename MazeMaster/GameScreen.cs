@@ -43,7 +43,7 @@ namespace MazeMaster
         public float HighestRPM;
         public Rectangle KidnapButtonDraw = new Rectangle(400 * MazeMaster.ScreenMultiplier, 140 * MazeMaster.ScreenMultiplier, 20 * MazeMaster.ScreenMultiplier, 20 * MazeMaster.ScreenMultiplier);
         public Rectangle PausePlayButtonDraw = new Rectangle(420 * MazeMaster.ScreenMultiplier, 140 * MazeMaster.ScreenMultiplier, 20 * MazeMaster.ScreenMultiplier, 20 * MazeMaster.ScreenMultiplier);
-
+        public Rectangle BackToMainButtonDraw = new Rectangle(440 * MazeMaster.ScreenMultiplier, 140 * MazeMaster.ScreenMultiplier, 20 * MazeMaster.ScreenMultiplier, 20 * MazeMaster.ScreenMultiplier);
         public void RestartLevel()
         {
             TotalTime = 0;
@@ -84,6 +84,7 @@ namespace MazeMaster
                 spriteBatch.DrawString(GraphicsAssets.Instance.SideFont,unit.RansomTimeLeft.ToString("0.00") + " Secs To ransom", new Vector2(425*MazeMaster.ScreenMultiplier, pos+(7*MazeMaster.ScreenMultiplier)), Color.Black);
             }
             spriteBatch.Draw(GraphicsAssets.Instance.MainSprite, KidnapButtonDraw, GraphicsAssets.Instance.KidnapButton, Color.White);
+            spriteBatch.Draw(GraphicsAssets.Instance.MainSprite, BackToMainButtonDraw, GraphicsAssets.Instance.BackToMainButton, Color.White);
             if (State == GameState.Pause)
             {
                 spriteBatch.Draw(GraphicsAssets.Instance.MainSprite, PausePlayButtonDraw, GraphicsAssets.Instance.PlayButton, Color.White);
@@ -151,6 +152,10 @@ namespace MazeMaster
                         {
                             TogglePausePlay();
                         }
+                        else if (BackToMainButtonDraw.Contains(iH.Pos))
+                        {
+                            Parent.ShowMain();
+                        }
                     }
                 }
             }
@@ -161,6 +166,10 @@ namespace MazeMaster
                     if (PausePlayButtonDraw.Contains(iH.Pos))
                     {
                         TogglePausePlay();
+                    }
+                    else if (BackToMainButtonDraw.Contains(iH.Pos))
+                    {
+                        Parent.ShowMain();
                     }
                 }
             }

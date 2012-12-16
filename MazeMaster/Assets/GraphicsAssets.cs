@@ -37,7 +37,7 @@ namespace MazeMaster.Assets
 
         public Rectangle PauseButton;
         public Rectangle PlayButton;
-
+        public Rectangle BackToMainButton;
         public Rectangle KidnapButton;
         public Rectangle KidnapChoice;
 
@@ -99,7 +99,7 @@ namespace MazeMaster.Assets
 
             Instance.PauseButton = new Rectangle(240, 200, 20, 20);
             Instance.PlayButton = new Rectangle(260, 200, 20, 20);
-
+            Instance.BackToMainButton = new Rectangle(280, 200, 20, 20);
             Instance.KidnapButton = new Rectangle(220, 200, 20, 20);
             Instance.KidnapChoice = new Rectangle(220, 220, 100, 100);
 
