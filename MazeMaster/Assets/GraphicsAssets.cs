@@ -13,7 +13,7 @@ namespace MazeMaster.Assets
         public Texture2D MainSprite;
 
         public Rectangle GrassTile;
-
+        public Rectangle ExitTile;
 
         public Rectangle Horizontal;
         public Rectangle Vertical;
@@ -62,6 +62,7 @@ namespace MazeMaster.Assets
             Instance.RockObstacle = new Rectangle(0, 32, 32, 32);
 
             Instance.TileHighlight = new Rectangle(128, 0, 32, 32);
+            Instance.ExitTile = new Rectangle(96, 0, 32, 32);
         }
     }
 }

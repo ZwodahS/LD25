@@ -10,6 +10,7 @@ namespace MazeMaster.Game
 {
     public class Maze
     {
+        public GameScreen Parent;
         protected Tile[,] Tiles;
 
         public List<Unit> Humans;
@@ -61,9 +62,9 @@ namespace MazeMaster.Game
                     Tiles[r, c].Update(gameTime);
                 }
             }
-            foreach (Unit unit in Humans)
+            for (int i = Humans.Count - 1; i >= 0; i--)
             {
-                unit.Update(gameTime);
+                Humans[i].Update(gameTime);
             }
         }
 
@@ -83,7 +84,6 @@ namespace MazeMaster.Game
             }
             return true;
         }
-
         public void PlaceTile(Tile NextTile, Grid g)
         {
             NextTile.CurrentGrid = g;
@@ -92,7 +92,21 @@ namespace MazeMaster.Game
 
         public bool CanPlace(Grid g)
         {
+            if (!InRange(g))
+            {
+                return false;
+            }
+            if (Tiles[g.Row, g.Col].IsExit)
+            {
+                return false;
+            }
             return true;
+        }
+
+        public void UnitEscape(Unit unit)
+        {
+            Parent.UnitEscape(unit);
+            Humans.Remove(unit);
         }
     }
 }

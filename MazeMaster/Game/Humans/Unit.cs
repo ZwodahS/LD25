@@ -199,6 +199,12 @@ namespace MazeMaster.Game.Humans
             MovementVector = Vector2.Zero;
             CurrentGrid = TargetGrid;
             CurrentAction = null;
+            Tile t = TargetMaze.GetTile(CurrentGrid);
+            if (t.IsExit)
+            {
+                TargetMaze.UnitEscape(this);
+            }
+
         }
 
         /// <summary>

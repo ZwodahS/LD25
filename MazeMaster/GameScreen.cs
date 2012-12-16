@@ -26,16 +26,9 @@ namespace MazeMaster
         public void RestartLevel()
         {
             Random rng = new Random();
-            CurrentMaze = new Maze(MazeGenerator.GenerateMaze(25, 25, rng.Next()));
-            CurrentMaze.AddUnit(UnitType.Breaker, rng.Next(5, 20), rng.Next(5, 20));
-            CurrentMaze.AddUnit(UnitType.Breaker, rng.Next(5, 20), rng.Next(5, 20));
-            CurrentMaze.AddUnit(UnitType.Breaker, rng.Next(5, 20), rng.Next(5, 20));
-            CurrentMaze.AddUnit(UnitType.Breaker, rng.Next(5, 20), rng.Next(5, 20));
-            CurrentMaze.AddUnit(UnitType.Breaker, rng.Next(5, 20), rng.Next(5, 20));
-            CurrentMaze.AddUnit(UnitType.Breaker, rng.Next(5, 20), rng.Next(5, 20));
-            CurrentMaze.AddUnit(UnitType.Breaker, rng.Next(5, 20), rng.Next(5, 20));
-            CurrentMaze.AddUnit(UnitType.Breaker, rng.Next(5, 20), rng.Next(5, 20));
-
+            CurrentMaze = new Maze(MazeGenerator.GenerateMaze(14, 14, rng.Next()));
+            CurrentMaze.AddUnit(UnitType.Breaker, rng.Next(2, 12), rng.Next(2, 12));
+            CurrentMaze.Parent = this;
             RandomNext();
         }
 
@@ -56,7 +49,7 @@ namespace MazeMaster
             iH.Update();
             CurrentMaze.Update(gameTime);
             Grid highlightedGrid = PointToGrid(iH.Pos);
-            if (CurrentMaze.InRange(highlightedGrid))
+            if (CurrentMaze.CanPlace(highlightedGrid))
             {
                 NextTile.CurrentGrid = highlightedGrid;
             }
@@ -87,6 +80,11 @@ namespace MazeMaster
         {
             CurrentMaze.PlaceTile(NextTile, g);
             RandomNext();
+        }
+
+        public void UnitEscape(Unit unit)
+        {
+
         }
     }
 }
