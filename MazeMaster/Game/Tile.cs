@@ -134,11 +134,12 @@ namespace MazeMaster.Game
 
         private void UpdateBound()
         {
-            DrawBound = new Rectangle(Col * 32, Row * 32, 32, 32);
-            UpBound = new Rectangle(Col * 32, Row * 32, 32, 4);
-            DownBound = new Rectangle(Col * 32, Row * 32 + 28, 32, 4);
-            LeftBound = new Rectangle(Col * 32, Row * 32, 4, 32);
-            RightBound = new Rectangle(Col * 32 + 28, Row * 32, 4, 32);
+
+            DrawBound = new Rectangle(Col * MazeMaster.TileSize, Row * MazeMaster.TileSize, MazeMaster.TileSize, MazeMaster.TileSize);
+            UpBound = new Rectangle(Col * MazeMaster.TileSize, Row * MazeMaster.TileSize, MazeMaster.TileSize, MazeMaster.WallSize);
+            DownBound = new Rectangle(Col * MazeMaster.TileSize, Row * MazeMaster.TileSize + MazeMaster.TileSize - MazeMaster.WallSize, MazeMaster.TileSize, MazeMaster.WallSize);
+            LeftBound = new Rectangle(Col * MazeMaster.TileSize, Row * MazeMaster.TileSize, MazeMaster.WallSize, MazeMaster.TileSize);
+            RightBound = new Rectangle(Col * MazeMaster.TileSize + MazeMaster.TileSize - MazeMaster.WallSize, Row * MazeMaster.TileSize, MazeMaster.WallSize, MazeMaster.TileSize);
 
         }
     }

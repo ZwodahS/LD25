@@ -100,6 +100,13 @@ namespace MazeMaster.Game
             {
                 return false;
             }
+            foreach (Unit u in Humans)
+            {
+                if (u.TargetGrid == g || u.CurrentGrid == g)
+                {
+                    return false;
+                }
+            }
             return true;
         }
 

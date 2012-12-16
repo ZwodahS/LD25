@@ -35,7 +35,7 @@ namespace MazeMaster.Game.Humans
         {
             CurrentGrid = grid;
             TargetGrid = grid;
-            Position = new Vector2(grid.Col * 32, grid.Row * 32);
+            Position = new Vector2(grid.Col * MazeMaster.TileSize, grid.Row * MazeMaster.TileSize);
         }
         public void SetPosition(Vector2 vector)
         {
@@ -148,6 +148,39 @@ namespace MazeMaster.Game.Humans
                         {
                             t.RightWall = WallState.Broken;
                         }
+                    }
+                    // This handles the case that another unit has already destroy this tile or the tile has been replaced by player
+                    bool destroyed = false;
+                    if (targetwall == Tile.Down)
+                    {
+                        if (t.DownWall == WallState.Broken || t.DownWall == WallState.None)
+                        {
+                            destroyed = true;
+                        }
+                    }
+                    else if (targetwall == Tile.Up)
+                    {
+                        if (t.UpWall == WallState.Broken || t.UpWall == WallState.None)
+                        {
+                            destroyed = true;
+                        }
+                    }
+                    else if (targetwall == Tile.Left)
+                    {
+                        if (t.LeftWall == WallState.Broken || t.LeftWall == WallState.None)
+                        {
+                            destroyed = true;
+                        }
+                    }
+                    else if (targetwall == Tile.Right)
+                    {
+                        if (t.RightWall == WallState.Broken || t.RightWall == WallState.None)
+                        {
+                            destroyed = true;
+                        }
+                    }
+                    if (destroyed)
+                    {
                         CurrentAction = null;
                         t.WallAnimateTime[targetwall] = 0;
                     }
@@ -183,14 +216,14 @@ namespace MazeMaster.Game.Humans
                 default:
                     break;
             }
-            spriteBatch.Draw(GraphicsAssets.Instance.MainSprite, new Rectangle((int)Position.X, (int)Position.Y, 32, 32), drawSource, Color.White);
+            spriteBatch.Draw(GraphicsAssets.Instance.MainSprite, new Rectangle((int)Position.X, (int)Position.Y, MazeMaster.TileSize, MazeMaster.TileSize), drawSource, Color.White);
         }
 
         public Rectangle DrawBound
         {
             get
             {
-                return new Rectangle((int)Position.X, (int)Position.Y, 32, 32);
+                return new Rectangle((int)Position.X, (int)Position.Y, MazeMaster.TileSize, MazeMaster.TileSize);
             }
         }
 
@@ -219,7 +252,7 @@ namespace MazeMaster.Game.Humans
                 return;
             }
             TargetGrid = grid;
-            TargetLocation = new Vector2(grid.Col * 32, grid.Row * 32);
+            TargetLocation = new Vector2(grid.Col * MazeMaster.TileSize, grid.Row * MazeMaster.TileSize);
             MovementVector = (TargetLocation - Position)/10;
             MovementVector.Normalize();
             MovementVector *= 100;
@@ -284,9 +317,6 @@ namespace MazeMaster.Game.Humans
             
         }
         
-        
-
-
         /// <summary>
         /// The main method that all new "maze solving algorithm" needs to implement.
         /// </summary>

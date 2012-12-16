@@ -17,7 +17,7 @@ namespace MazeMaster.Game
                 
                 for (int c = 0; c < col; c++)
                 {
-                    if (r < 2 || r >= (row - 2) || c < 2 || c >= (col - 2))
+                    if (r < 1 || r >= (row - 1) || c < 1 || c >= (col - 1))
                     {
                         tiles[r, c] = ExitTile(r, c);
                     }

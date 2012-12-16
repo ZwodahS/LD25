@@ -22,12 +22,15 @@ namespace MazeMaster
 
 
         GameScreen gameScreen;
-
+        public const int ScreenMultiplier = 1;
+        public static int TileSize = 32 * ScreenMultiplier;
+        public static int WallSize = 4 * ScreenMultiplier;
+        
         public MazeMaster()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferWidth = 1000;
-            graphics.PreferredBackBufferHeight = 800;
+            graphics.PreferredBackBufferWidth = 600 * ScreenMultiplier;
+            graphics.PreferredBackBufferHeight = 384 * ScreenMultiplier;
             graphics.ApplyChanges();
             IsMouseVisible = true;
             Content.RootDirectory = "Content";
