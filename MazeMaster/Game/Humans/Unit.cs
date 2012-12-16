@@ -382,5 +382,47 @@ namespace MazeMaster.Game.Humans
         /// </summary>
         /// <returns></returns>
         protected abstract UnitAction GetNextAction();
+
+        internal static List<Unit> GetRandomTargets(int num)
+        {
+            List<Unit> targets = new List<Unit>();
+            Random rng = new Random();
+            for (int i = 0; i < num; i++)
+            {
+                int type = rng.Next(0, 2);
+                Unit unit = null;
+                if (type == 0)
+                {
+                    unit = CreateUnit(UnitType.Basic, rng);
+                }
+                else if (type == 1)
+                {
+                    unit = CreateUnit(UnitType.Breaker, rng);
+                }
+                targets.Add(unit);
+            }
+            return targets;
+        }
+        private static Unit CreateUnit(UnitType type,Random rng)
+        {
+            Unit unit = null;
+            float timeBonus = 0.5f + (float)rng.NextDouble();
+            if (type == UnitType.Basic)
+            {
+                unit = new BasicHuman();
+                unit.RansomAmount = (int)(5000 * timeBonus);
+                unit.RansomTimeLeft = (int)(40 * timeBonus);
+            }
+            else if (type == UnitType.Breaker)
+            {
+                unit = new Breaker();
+                unit.RansomAmount = (int)(10000 * timeBonus);
+                unit.RansomTimeLeft = (int)(25 * timeBonus);
+            }
+            unit.CurrentFacingDirection = Helper.RandomDirection(false);
+            unit.BorderColor = new Color(rng.Next(100, 256), rng.Next(100, 256), rng.Next(100, 256), 255);
+            unit.InternalColor = new Color(rng.Next(100, 256), rng.Next(100, 256), rng.Next(100, 256), 255);
+            return unit;
+        }
     }
 }

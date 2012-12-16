@@ -87,6 +87,10 @@ namespace MazeMaster.Game
                     spriteBatch.Draw(Texture, upBound, GraphicsAssets.Instance.Horizontal, Color.White);
                     spriteBatch.Draw(Texture, upBound, GraphicsAssets.Instance.HorizontalDamaged, new Color(255, 0, 0, WallAnimateTime[0] * 0.5f));
                 }
+                else
+                {
+                    spriteBatch.Draw(Texture, upBound, GraphicsAssets.Instance.HorizontalBroken, Color.White);
+                }
 
                 if (DownWall == WallState.Sealed)
                 {
@@ -100,6 +104,10 @@ namespace MazeMaster.Game
                 {
                     spriteBatch.Draw(Texture, downBound, GraphicsAssets.Instance.Horizontal, Color.White);
                     spriteBatch.Draw(Texture, downBound, GraphicsAssets.Instance.HorizontalDamaged, new Color(255, 0, 0, WallAnimateTime[1] * 0.5f));
+                }
+                else
+                {
+                    spriteBatch.Draw(Texture, downBound, GraphicsAssets.Instance.HorizontalBroken, Color.White);
                 }
 
                 if (LeftWall == WallState.Sealed)
@@ -115,6 +123,10 @@ namespace MazeMaster.Game
                     spriteBatch.Draw(Texture, leftBound, GraphicsAssets.Instance.Vertical, Color.White);
                     spriteBatch.Draw(Texture, leftBound, GraphicsAssets.Instance.VerticalDamaged, new Color(255, 0, 0, WallAnimateTime[2] * 0.5f));
                 }
+                else
+                {
+                    spriteBatch.Draw(Texture, leftBound, GraphicsAssets.Instance.VerticalBroken, Color.White);
+                }
 
                 if (RightWall == WallState.Sealed)
                 {
@@ -128,6 +140,10 @@ namespace MazeMaster.Game
                 {
                     spriteBatch.Draw(Texture, rightBound, GraphicsAssets.Instance.Vertical, Color.White);
                     spriteBatch.Draw(Texture, rightBound, GraphicsAssets.Instance.VerticalDamaged, new Color(255, 0, 0, WallAnimateTime[3] * 0.5f));
+                }
+                else
+                {
+                    spriteBatch.Draw(Texture, rightBound, GraphicsAssets.Instance.VerticalBroken, Color.White);
                 }
             }
         }
@@ -153,6 +169,10 @@ namespace MazeMaster.Game
                     spriteBatch.Draw(Texture, UpBound, GraphicsAssets.Instance.Horizontal, Color.White);
                     spriteBatch.Draw(Texture, UpBound, GraphicsAssets.Instance.HorizontalDamaged, new Color(255, 0, 0, WallAnimateTime[0] * 0.5f));
                 }
+                else
+                {
+                    spriteBatch.Draw(Texture, UpBound, GraphicsAssets.Instance.HorizontalBroken, Color.White);
+                }
 
                 if (DownWall == WallState.Sealed)
                 {
@@ -166,6 +186,10 @@ namespace MazeMaster.Game
                 {
                     spriteBatch.Draw(Texture, DownBound, GraphicsAssets.Instance.Horizontal, Color.White);
                     spriteBatch.Draw(Texture, DownBound, GraphicsAssets.Instance.HorizontalDamaged, new Color(255, 0, 0, WallAnimateTime[1] * 0.5f));
+                }
+                else
+                {
+                    spriteBatch.Draw(Texture, UpBound, GraphicsAssets.Instance.HorizontalBroken, Color.White);
                 }
 
                 if (LeftWall == WallState.Sealed)
@@ -181,6 +205,10 @@ namespace MazeMaster.Game
                     spriteBatch.Draw(Texture, LeftBound, GraphicsAssets.Instance.Vertical, Color.White);
                     spriteBatch.Draw(Texture, LeftBound, GraphicsAssets.Instance.VerticalDamaged, new Color(255, 0, 0, WallAnimateTime[2] * 0.5f));
                 }
+                else
+                {
+                    spriteBatch.Draw(Texture, UpBound, GraphicsAssets.Instance.HorizontalBroken, Color.White);
+                }
 
                 if (RightWall == WallState.Sealed)
                 {
@@ -194,6 +222,10 @@ namespace MazeMaster.Game
                 {
                     spriteBatch.Draw(Texture, RightBound, GraphicsAssets.Instance.Vertical, Color.White);
                     spriteBatch.Draw(Texture, RightBound, GraphicsAssets.Instance.VerticalDamaged, new Color(255, 0, 0, WallAnimateTime[3] * 0.5f));
+                }
+                else
+                {
+                    spriteBatch.Draw(Texture, UpBound, GraphicsAssets.Instance.HorizontalBroken, Color.White);
                 }
             }
         }

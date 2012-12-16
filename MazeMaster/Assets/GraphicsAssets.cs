@@ -35,8 +35,12 @@ namespace MazeMaster.Assets
         public Rectangle UnitType1;
         public Rectangle UnitType2;
         public Rectangle UnitType3;
-        
 
+        public Rectangle PauseButton;
+        public Rectangle PlayButton;
+
+        public Rectangle KidnapButton;
+        public Rectangle KidnapChoice;
         public GraphicsAssets()
         {
             
@@ -78,6 +82,12 @@ namespace MazeMaster.Assets
             {
                 Instance.SideFont = content.Load<SpriteFont>("sidefont");
             }
+
+            Instance.PauseButton = new Rectangle(240, 200, 20, 20);
+            Instance.PlayButton = new Rectangle(260, 200, 20, 20);
+
+            Instance.KidnapButton = new Rectangle(220, 200, 20, 20);
+            Instance.KidnapChoice = new Rectangle(220, 220, 100, 100);
         }
     }
 }

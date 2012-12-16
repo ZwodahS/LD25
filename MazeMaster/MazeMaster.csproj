@@ -111,7 +111,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\GraphicsAssets.cs" />
+    <Compile Include="Assets\KidnapOption.cs" />
     <Compile Include="GameScreen.cs" />
+    <Compile Include="GameState.cs" />
     <Compile Include="Game\Direction.cs" />
     <Compile Include="Game\Grid.cs" />
     <Compile Include="Game\Helper.cs" />

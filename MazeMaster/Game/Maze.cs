@@ -22,25 +22,11 @@ namespace MazeMaster.Game
             rng = new Random();
         }
 
-        public void AddUnit(UnitType type,int row,int col)
+        public void Kidnap(Unit unit)
         {
-            Grid grid = new Grid(row, col);
-            Unit unit = null;
-            if (type == UnitType.Basic)
-            {
-                unit = new BasicHuman();
-            }
-            else if (type == UnitType.Breaker)
-            {
-                unit = new Breaker();
-            }
+            Grid grid = new Grid(6,6);
             unit.SetGrid(grid);
             unit.TargetMaze = this;
-            unit.CurrentFacingDirection = Helper.RandomDirection(false);
-            unit.RansomAmount = 1000000;
-            unit.RansomTimeLeft = 5;
-            unit.BorderColor = new Color(rng.Next(100, 256), rng.Next(100, 256), rng.Next(100, 256), 255);
-            unit.InternalColor = new Color(rng.Next(100, 256), rng.Next(100, 256), rng.Next(100, 256), 255);
             Humans.Add(unit);
         }
 
