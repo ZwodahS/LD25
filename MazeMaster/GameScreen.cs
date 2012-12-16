@@ -28,6 +28,9 @@ namespace MazeMaster
             Random rng = new Random();
             CurrentMaze = new Maze(MazeGenerator.GenerateMaze(12, 12, rng.Next()));
             CurrentMaze.AddUnit(UnitType.Breaker, rng.Next(1, 11), rng.Next(1, 11));
+            CurrentMaze.AddUnit(UnitType.Breaker, rng.Next(1, 11), rng.Next(1, 11));
+            CurrentMaze.AddUnit(UnitType.Breaker, rng.Next(1, 11), rng.Next(1, 11));
+            CurrentMaze.AddUnit(UnitType.Breaker, rng.Next(1, 11), rng.Next(1, 11));
             CurrentMaze.Parent = this;
             RandomNext();
         }
@@ -41,6 +44,10 @@ namespace MazeMaster
                 NextTile.Draw(spriteBatch, gameTime);
                 spriteBatch.Draw(GraphicsAssets.Instance.MainSprite, new Rectangle(NextTile.CurrentGrid.Col * MazeMaster.TileSize, NextTile.CurrentGrid.Row * MazeMaster.TileSize, MazeMaster.TileSize, MazeMaster.TileSize), GraphicsAssets.Instance.TileHighlight, new Color(255, 255, 255, 0.2f));
             }
+
+            spriteBatch.DrawString(GraphicsAssets.Instance.SideFont, "Next :", new Vector2(400, 20) * MazeMaster.ScreenMultiplier, Color.Black);
+            NextTile.DrawAt(spriteBatch, gameTime, new Point(MazeMaster.ScreenMultiplier * 450,MazeMaster.ScreenMultiplier*20));
+
             spriteBatch.End();
         }
 

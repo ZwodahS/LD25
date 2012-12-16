@@ -22,7 +22,7 @@ namespace MazeMaster
 
 
         GameScreen gameScreen;
-        public const int ScreenMultiplier = 1;
+        public const int ScreenMultiplier = 2;
         public static int TileSize = 32 * ScreenMultiplier;
         public static int WallSize = 4 * ScreenMultiplier;
         

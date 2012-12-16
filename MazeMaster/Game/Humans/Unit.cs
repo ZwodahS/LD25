@@ -255,7 +255,7 @@ namespace MazeMaster.Game.Humans
             TargetLocation = new Vector2(grid.Col * MazeMaster.TileSize, grid.Row * MazeMaster.TileSize);
             MovementVector = (TargetLocation - Position)/10;
             MovementVector.Normalize();
-            MovementVector *= 100;
+            MovementVector *= 75;
             CurrentFacingDirection = Helper.GetDirection(CurrentGrid, TargetGrid);
         }
         /// <summary>

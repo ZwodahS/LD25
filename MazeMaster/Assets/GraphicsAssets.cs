@@ -27,6 +27,8 @@ namespace MazeMaster.Assets
         public Rectangle RockObstacle;
         public Rectangle TileHighlight;
 
+        public SpriteFont SideFont;
+
         public static GraphicsAssets Instance;
 
         
@@ -63,6 +65,10 @@ namespace MazeMaster.Assets
 
             Instance.TileHighlight = new Rectangle(128, 0, 32, 32);
             Instance.ExitTile = new Rectangle(96, 0, 32, 32);
+
+
+
+            Instance.SideFont = content.Load<SpriteFont>("sidefont");
         }
     }
 }
